@@ -1,5 +1,6 @@
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+import dateutil.parser
 import requests
 import numpy as np
 import lxml.etree as etree
@@ -64,8 +65,7 @@ class YieldCurve:
         content = self.get_content(last_entry)
         properties = self.get_properties(content)
 
-        self._as_of_date = datetime.\
-            fromisoformat(str(properties['{http://schemas.microsoft.com/ado/2007/08/dataservices}NEW_DATE']))
+        self._as_of_date = dateutil.parser.isoparse(str(properties['{http://schemas.microsoft.com/ado/2007/08/dataservices}NEW_DATE']))
 
         yc = self.get_yc_values(properties)
         return yc
